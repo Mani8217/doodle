@@ -16,29 +16,35 @@
         border: 2px solid red;
       }
       input{
-      
+         display:block;
+          
       
       }
       input[type="number"]{
       
       }
       div{
-        height: 20vh;
+        height: 25vh;
         background-color: aqua;
       }
+        h2 {
+          text-align: center;
+        }
+        
     </style>
 </head>
 <body>
   <div>
-  <input type="color" name="color" id="color">
-  <input type="number" name="" id="number">
+      <h2>Doodle</h2>
+  Choose Color: <input type="color" name="color" id="color">
+  Choose Font Size<input type="number" name="" id="number">
   </div>
    <canvas id="myCanvas"></canvas>
 
     <script>
       let c = document.getElementById('myCanvas');
       c.width = window.innerWidth;
-      c.height = (window.innerHeight / 100 )* 80;
+      c.height = (window.innerHeight / 100 )* 75;
       let ctx = c.getContext('2d');
 
       let isClicked = false;
