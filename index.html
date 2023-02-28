@@ -56,7 +56,7 @@
 
       window.addEventListener('mousemove', (event) => {
         let x = event.pageX;
-        let y = event.pageY
+        let y = event.pageY - (innerHeight/100) * 25;
         if(isClicked){
             points.push({x,y});
             ctx.beginPath()
