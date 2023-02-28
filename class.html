@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script>
+        function tagData(name,innerHTML) {
+            return {
+                name: name,
+                innerHTML : innerHTML
+            }
+        }
+        function createElement(container = document.querySelector("body"),data= {name,innerHTML}){
+              let element = document.createElement(data.name)
+              data.innerHTML ? element.innerHTML = data.innerHTML: null;
+              container.appendChild(element);
+              return element
+        }
+        function Person(name, id, age){
+               this.container = createElement({name:"div"})
+               this.name = createElement(this.container,tagData("h1",name))
+                this.age = createElement(this.container,tagData("h1",age));
+        }
+
+        let sina = new Person("sina","kefjhvwlf",22);
+        
+    </script>
+</body>{}
+</html>

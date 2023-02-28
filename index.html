@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        canvas {
+            border: 1px solid #bd7bb5;
+        }
+    </style>
+</head>
+<body>
+
+
+    <script>
+        const colors = ['#716a6a' , '#c2ebd4', '#a79fbe', '#bd7bb5' ]
+        colors.forEach(color => {
+
+        })
+    function Ball(x , y, r ,sx, sy,color){
+        this.x = x
+        this.y = y
+        this.r = r
+        this.sx = sx
+        this.sy = sy
+        this.color=color
+        this.sr = .5
+    }    
+    Ball.prototype.draw = function() {
+        canvas.ctx.beginPath()
+        canvas.ctx.strokeStyle = this.color
+        if(canvas.frame % 10 == 0) {
+            canvas.ctx.fillStyle = colors[Math.floor(Math.random()*4)]
+        }
+        
+        canvas.ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI) 
+        canvas.ctx.fill()
+        canvas.ctx.stroke();
+    }
+    Ball.prototype.update = function() {
+      this.x += this.sx 
+      this.y += this.sy
+      this.r += this.sr
+      if(this.x + this.r >= innerWidth) this.sx = this.sx * -1
+      if(this.x-this.r <= 0) this.sx = Math.abs(this.sx);
+      if(this.y - this.r <= 0) this.sy = Math.abs(this.sy);
+      if(this.y + this.r >= innerHeight) this.sy = this.sy * -1;
+      if(this.r >= 40 ) this.sr = this.sr * -1
+      if(this.r <= 10) this.sr = Math.abs(this.sr)
+    }
+    function Canvas(){
+        this.frame = 0;
+       this.canvas = document.createElement('canvas')
+       this.ctx = this.canvas.getContext('2d')
+        this.canvas.width = innerWidth
+        this.canvas.height=innerHeight
+        document.querySelector('body').append(this.canvas)
+        this.balls = []
+
+        for (let index = 0; index < 20; index++) {
+            
+            this.balls.push(new Ball(Math.floor(Math.random() * innerWidth),Math.floor(Math.random()*innerHeight), 30 , Math.floor(Math.random()*10) + 1,Math.floor(Math.random()*10) + 1,colors[Math.floor(Math.random()*4)])) 
+
+        }
+    }
+    Canvas.prototype.draw = function() {
+        this.balls.forEach(ball => {
+            ball.draw();
+        })
+    }
+    Canvas.prototype.update = function() {
+        this.balls.forEach(ball => {
+            ball.update();
+    
+
+        })
+        for (let index1 = 0; index1 < this.balls.length; index1++) {
+            let ball1 = this.balls[index1]
+            for (let index2 = 0; index2 < this.balls.length; index2++) {
+                let ball2 = this.balls[index2]
+                let distance = Math.sqrt((ball2.x- ball1.x) ** 2 + (ball2.y - ball1.y) ** 2)
+                if(index1 !== index2 && distance <= ball1.r + ball2.r ){
+                    let newSx = (ball2.x - ball1.x) / 10
+                    let newSy = (ball2.y - ball1.y) / 10
+                    ball2.sx = newSx
+                    ball2.sy = newSy
+                 
+                }
+
+            }
+            
+        }
+    }
+
+    function anim(){
+      requestAnimationFrame(anim)
+      canvas.frame++;
+        canvas.ctx.clearRect(0,0,innerWidth,innerHeight)
+      canvas.draw()
+      canvas.update()
+    }
+
+    const canvas = new Canvas();
+    
+    anim()
+
+    </script>
+</body>
+</html>

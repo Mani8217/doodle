@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        
+      }
+      canvas {
+        border: 2px solid red;
+      }
+      input{
+      
+      
+      }
+      input[type="number"]{
+      
+      }
+      div{
+        height: 20vh;
+        background-color: aqua;
+      }
+    </style>
+</head>
+<body>
+  <div>
+  <input type="color" name="color" id="color">
+  <input type="number" name="" id="number">
+  </div>
+   <canvas id="myCanvas"></canvas>
+
+    <script>
+      let c = document.getElementById('myCanvas');
+      c.width = window.innerWidth;
+      c.height = (window.innerHeight / 100 )* 80;
+      let ctx = c.getContext('2d');
+
+      let isClicked = false;
+      let points = []
+      window.addEventListener('mousedown' , (event) => {
+        isClicked = true;
+        
+      })
+
+      window.addEventListener('mousemove', (event) => {
+        let x = event.pageX;
+        let y = event.pageY
+        if(isClicked){
+            points.push({x,y});
+            ctx.beginPath()
+            ctx.strokeStyle = document.getElementById('color').value;
+            ctx.lineWidth = document.getElementById('number').value;
+            ctx.moveTo(points[0].x , points[0].y)
+            points.forEach(point => {
+                let {x, y} = point
+                ctx.lineTo(x,y)
+            })
+            
+            ctx.stroke();
+            
+           
+        }
+        
+      })
+
+      window.addEventListener('mouseup', (event)=> {
+        isClicked = false;
+        points=[]
+
+
+      })
+
+    </script>
+</body>
+</html>
